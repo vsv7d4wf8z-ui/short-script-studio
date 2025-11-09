@@ -27,7 +27,7 @@ jobs:
       - name: Run agent scripts
         run: |
           echo "🧠 Running Short Script Studio Agent..."
-          node scripts/update-qa-badge.js
+          node update-qa-badge.js
 
       - name: Commit and push changes
         run: |
