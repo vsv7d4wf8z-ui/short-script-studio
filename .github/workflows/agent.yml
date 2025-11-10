@@ -22,17 +22,29 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci || true
+        run: npm install --no-audit --no-fund
 
+      # NEW: generate one TikTok script JSON per run
+      - name: Generate TikTok content (daily)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "🧠 Generating today's TikTok script..."
+          npm run generate:today
+          echo "✅ Generated file(s):"
+          ls -la content || echo "No content directory found."
+
+      # Existing QA badge updater
       - name: Run agent scripts
         run: |
-          echo "🧠 Running Short Script Studio Agent..."
+          echo "🧠 Updating QA badge..."
           node qa/reports/summary/scripts/update-qa-badge.js
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "🤖 Automated QA badge update" || echo "No changes to commit"
+          git add -A
+          git status
+          git commit -m "🤖 Agent: generated TikTok content + badge update" || echo "No changes to commit"
           git push
