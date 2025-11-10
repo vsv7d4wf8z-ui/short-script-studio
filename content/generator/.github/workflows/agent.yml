@@ -1,0 +1,9 @@
+      # NEW: generate one TikTok script JSON per run
+      - name: Generate TikTok content (daily)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "🧠 Generating today's TikTok script..."
+          npm run generate:today
+          echo "✅ Generated file(s):"
+          ls -la content | tail -n +1
