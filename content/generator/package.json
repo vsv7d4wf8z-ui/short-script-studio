@@ -1,0 +1,11 @@
+{
+  "name": "short-script-studio",
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "generate:today": "node content/generator/generate-tiktok-content.js"
+  },
+  "dependencies": {
+    "openai": "^4.58.1"
+  }
+}
