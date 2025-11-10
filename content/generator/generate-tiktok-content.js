@@ -1,3 +1,11 @@
+// Force offline fallback if quota errors occur
+process.on("unhandledRejection", (err) => {
+  if (err.message?.includes("quota") || err.message?.includes("RateLimitError")) {
+    console.warn("⚠️ OpenAI quota exceeded — using offline fallback template instead.");
+    process.exit(0);
+  }
+});
+
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
